@@ -2,15 +2,15 @@
 
 public class Stack {
     
-    int top;        // keeps track of top index
-    int capacity;   // maximum size of stack
-    int arr[];      // array to hold elements
+    int top;       
+    int capacity;   
+    int arr[];
 
     // Constructor
     Stack(int size) {
         capacity = size;
         arr = new int[capacity];
-        top = -1; // initially stack is empty
+        top = -1; 
     }
 
     // Push operation
