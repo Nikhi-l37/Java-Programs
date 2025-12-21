@@ -6,14 +6,12 @@ public class Stack {
     int capacity;   
     int arr[];
 
-    // Constructor
     Stack(int size) {
         capacity = size;
         arr = new int[capacity];
         top = -1; 
     }
 
-    // Push operation
     public void push(int data) {
         if (isFull()) {
             System.out.println("Stack Overflow! Cannot push " + data);
@@ -23,17 +21,15 @@ public class Stack {
         System.out.println(data + " pushed to stack");
     }
 
-    // Pop operation
     public int pop() {
         if (isEmpty()) {
             System.out.println("Stack Underflow! Cannot pop");
             return -1;
         }
-        int popped = arr[top--]; // return top element and decrease top
+        int popped = arr[top--]; 
         return popped;
     }
 
-    // Peek operation
     public int peek() {
         if (isEmpty()) {
             System.out.println("Stack is empty");
@@ -42,17 +38,14 @@ public class Stack {
         return arr[top];
     }
 
-    // Check if stack is empty
     public boolean isEmpty() {
         return top == -1;
     }
 
-    // Check if stack is full
     public boolean isFull() {
         return top == capacity - 1;
     }
 
-    // Display all elements
     public void display() {
         if (isEmpty()) {
             System.out.println("Stack is empty");
@@ -65,7 +58,6 @@ public class Stack {
         System.out.println();
     }
 
-    // Main method to test
     public static void main(String[] args) {
         Stack stack1 = new Stack(5);
 
