@@ -92,12 +92,3 @@ class StackArray{
     }
 }
 
-// adding line to the file to test git changes
-        // stack1.push(10);
-        // stack1.push(20);
-        // stack1.push(30);
-        // stack1.display();
-        // System.out.println(stack1.pop() + " popped from stack");
-        // System.out.println("Top element is: " + stack1.peek());
-        // stack1.display();
-        // stack1.push(10);       
