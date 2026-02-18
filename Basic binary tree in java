@@ -1,0 +1,22 @@
+class BinaryTree {
+    Node root;
+
+    BinaryTree() {
+        root = null;
+    }
+
+    public static void main(String[] args) {
+        BinaryTree tree = new BinaryTree();
+
+        // Creating the root node
+        tree.root = new Node(1);
+
+        // Adding children
+        tree.root.left = new Node(2);
+        tree.root.right = new Node(3);
+
+        // Adding a grandchild
+        tree.root.left.left = new Node(4);
+    }
+}
+
