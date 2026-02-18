@@ -1,0 +1,20 @@
+class Node {
+    int val;
+    Node left, right;
+    Node(int v) { val = v; } // Constructor only
+}
+void traverse(Node root) {
+    if (root == null) return;      // Stop if empty
+
+    System.out.print(root.val + " "); // Root (Preorder)
+    traverse(root.left);             // Left subtree
+    traverse(root.right);            // Right subtree
+}
+public static void main(String[] args) {
+    Node root = new Node(1);
+    root.left = new Node(2);
+    root.right = new Node(3);
+
+    new Main().traverse(root); // Outputs: 1 2 3
+}
+
