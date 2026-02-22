@@ -1,0 +1,26 @@
+class Solution {
+    public int binaryGap(int n) {
+        int maxDistance = 0;
+        int lastPosition = -1;
+        int currentPosition = 0;
+
+        while (n != 0) {
+            // Isolate the rightmost set bit (e.g., 22 is 10110, lowestOneBit(22) is 00010)
+            int lowestBit = Integer.lowestOneBit(n);
+            
+            // Get the index of that bit (0-indexed)
+            int currentBitIndex = Integer.numberOfTrailingZeros(lowestBit);
+            
+            if (lastPosition != -1) {
+                maxDistance = Math.max(maxDistance, currentBitIndex - lastPosition);
+            }
+            
+            lastPosition = currentBitIndex;
+            
+            // Remove the processed bit to move to the next one
+            n ^= lowestBit; 
+        }
+
+        return maxDistance;
+    }
+}
