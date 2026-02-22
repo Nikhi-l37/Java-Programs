@@ -1,0 +1,24 @@
+class Solution {
+    public int binaryGap(int n) {
+        int maxDistance = 0;
+        int lastPosition = -1;
+        int currentPosition = 0;
+
+        while (n > 0) {
+            // Check if the current bit is 1
+            if ((n & 1) == 1) {
+                if (lastPosition != -1) {
+                    // Update maxDistance with the gap
+                    maxDistance = Math.max(maxDistance, currentPosition - lastPosition);
+                }
+                // Update the last seen 1's position
+                lastPosition = currentPosition;
+            }
+            // Move to the next bit and increment position counter
+            n >>= 1;
+            currentPosition++;
+        }
+
+        return maxDistance;
+    }
+}
