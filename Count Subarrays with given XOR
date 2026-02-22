@@ -1,0 +1,31 @@
+import java.util.HashMap;
+
+class Solution {
+    public long subarrayXor(int arr[], int k) {
+        long count = 0;
+        int prefixXor = 0;
+        // Map to store frequency of prefix XORs
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        for (int val : arr) {
+            // Update current prefix XOR
+            prefixXor ^= val;
+
+            // Case 1: The prefix itself equals k
+            if (prefixXor == k) {
+                count++;
+            }
+
+            // Case 2: Check if (prefixXor ^ k) exists in the map
+            int target = prefixXor ^ k;
+            if (map.containsKey(target)) {
+                count += map.get(target);
+            }
+
+            // Update the map with the current prefix XOR frequency
+            map.put(prefixXor, map.getOrDefault(prefixXor, 0) + 1);
+        }
+
+        return count;
+    }
+}
