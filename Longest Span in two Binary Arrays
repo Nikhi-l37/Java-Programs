@@ -1,0 +1,39 @@
+// import java.util.Arrays;
+class Solution {
+    public int equalSumSpan(int[] a1, int[] a2) {
+        int n = a1.length;
+        // Use an array instead of HashMap for O(1) direct access and no overhead
+        // Index range: -n to n. Offset by n to use as array indices (0 to 2n).
+        int[] firstOccurrence = new int[2 * n + 1];
+        
+        // Initialize with -1 to indicate the difference hasn't been seen yet
+        Arrays.fill(firstOccurrence, -1);
+        
+        int currSum = 0;
+        int maxLen = 0;
+        
+        for (int i = 0; i < n; i++) {
+            // Difference of current elements
+            currSum += (a1[i] - a2[i]);
+            
+            // If sum is 0, the span from 0 to i has equal sums
+            if (currSum == 0) {
+                maxLen = i + 1;
+            }
+            
+            // Map currSum to array index using offset n
+            int diffIndex = currSum + n;
+            
+            if (firstOccurrence[diffIndex] != -1) {
+                // If this difference was seen before, calculate the distance
+                maxLen = Math.max(maxLen, i - firstOccurrence[diffIndex]);
+            } else {
+                // Store the first time this difference is encountered
+                firstOccurrence[diffIndex] = i;
+            }
+        }
+        
+        return maxLen;
+    }
+}
+
