@@ -1,0 +1,30 @@
+// import java.util.*;
+
+class Solution {
+    public int[] sortByBits(int[] arr) {
+        // Convert to Integer array to use custom Comparator
+        Integer[] integerArr = new Integer[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            integerArr[i] = arr[i];
+        }
+
+        Arrays.sort(integerArr, (a, b) -> {
+            int bitCountA = Integer.bitCount(a);
+            int bitCountB = Integer.bitCount(b);
+            
+            // Primary sort: bit count
+            if (bitCountA != bitCountB) {
+                return bitCountA - bitCountB;
+            }
+            // Secondary sort: actual value
+            return a - b;
+        });
+
+        // Convert back to primitive int array
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = integerArr[i];
+        }
+        
+        return arr;
+    }
+}
