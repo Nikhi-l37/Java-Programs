@@ -1,0 +1,42 @@
+In Java, there are several ways to copy the contents of one array to another, depending on whether you want to replace the entire array object or just copy the elements into an existing array.
+1. Using System.arraycopy() (Most Efficient)
+This is the standard, high-performance way to copy elements between two existing arrays. It allows you to specify the starting position and the number of elements.
+java
+int[] a = {1, 2, 3, 4};
+int[] b = {1, 2, 4, 3};
+
+// System.arraycopy(source, srcPos, destination, destPos, length)
+System.arraycopy(a, 0, b, 0, a.length);
+Use code with caution.
+
+2. Using Arrays.copyOf()
+This is best if you want to create a new array that is a copy of the original.
+java
+int[] a = {1, 2, 3, 4};
+int[] b = Arrays.copyOf(a, a.length);
+Use code with caution.
+
+3. Using the .clone() Method
+The simplest way to create a shallow copy of an array. Note that for primitive types (like int), this creates a completely independent copy.
+java
+int[] a = {1, 2, 3, 4};
+int[] b = a.clone();
+Use code with caution.
+
+4. Using a Simple for Loop
+If you want total control or are working in a basic environment, a loop works perfectly.
+java
+int[] a = {1, 2, 3, 4};
+int[] b = new int[a.length];
+
+for (int i = 0; i < a.length; i++) {
+    b[i] = a[i];
+}
+Use code with caution.
+
+⚠️ Important Note on Assignment
+Do not simply do b = a;. This does not copy the array; it makes both variables point to the same memory location. If you change a[0], b[0] will also change because they are the same object.
+✅ Answer
+To copy the values of a into an existing array b efficiently, use System.arraycopy(a, 0, b, 0, a.length).
+Are you working with primitive arrays (like int[]) or object arrays (like String[] or custom classes) where deep copying might be needed?
+AI can make mistakes, so double-check responses
