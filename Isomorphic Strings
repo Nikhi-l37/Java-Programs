@@ -1,0 +1,38 @@
+class Solution {
+    public boolean areIsomorphic(String s1, String s2) {
+        // Step 1: Length check (though problem implies equal length)
+        if (s1.length() != s2.length()) {
+            return false;
+        }
+
+        // Arrays to store the mapping of characters
+        // map1 stores s1 -> s2, map2 stores s2 -> s1
+        int[] map1 = new int[256];
+        int[] map2 = new int[256];
+
+        // Initialize with -1 to indicate no mapping yet
+        java.util.Arrays.fill(map1, -1);
+        java.util.Arrays.fill(map2, -1);
+
+        for (int i = 0; i < s1.length(); i++) {
+            char c1 = s1.charAt(i);
+            char c2 = s2.charAt(i);
+
+            // Check if c1 is already mapped to something else
+            if (map1[c1] != -1 && map1[c1] != c2) {
+                return false;
+            }
+
+            // Check if c2 is already mapped to something else (prevents many-to-one)
+            if (map2[c2] != -1 && map2[c2] != c1) {
+                return false;
+            }
+
+            // Establish the mapping
+            map1[c1] = c2;
+            map2[c2] = c1;
+        }
+
+        return true;
+    }
+}
