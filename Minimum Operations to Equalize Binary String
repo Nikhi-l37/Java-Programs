@@ -1,0 +1,70 @@
+import java.util.*;
+
+class Solution {
+    public int minOperations(String s, int k) {
+        int n = s.length();
+        int initialZeros = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '0') initialZeros++;
+        }
+
+        if (initialZeros == 0) return 0;
+
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(initialZeros);
+        
+        int[] dist = new int[n + 1];
+        Arrays.fill(dist, -1);
+        dist[initialZeros] = 0;
+
+        // track which counts we've already added to the queue to avoid O(n*k)
+        // We use two pointers/ranges because parity splits the possible states
+        int[] minVisited = new int[2]; 
+        int[] maxVisited = new int[2];
+        // Initialize with extreme values based on parity
+        minVisited[0] = minVisited[1] = n + 1;
+        maxVisited[0] = maxVisited[1] = -1;
+
+        while (!queue.isEmpty()) {
+            int z = queue.poll();
+            
+            // Range of 'i' (number of zeros flipped)
+            int min_i = Math.max(0, k - (n - z));
+            int max_i = Math.min(z, k);
+
+            // Possible next zero counts are in range [low, high]
+            // where z' = z + k - 2*i
+            int high = z + k - 2 * min_i; // i is small, nextZ is large
+            int low = z + k - 2 * max_i;  // i is large, nextZ is small
+            
+            int parity = high % 2;
+
+            // Start from the boundaries of what we haven't visited yet in this parity
+            // This prevents re-scanning the same middle values repeatedly
+            for (int nextZ = low; nextZ <= high; nextZ += 2) {
+                if (dist[nextZ] == -1) {
+                    dist[nextZ] = dist[z] + 1;
+                    if (nextZ == 0) return dist[nextZ];
+                    queue.add(nextZ);
+                } else {
+                    // Optimization: If we hit a visited area, we can potentially skip
+                    // but since BFS finds shortest path, just checking dist == -1 is key.
+                    // To truly beat TLE for huge N, use an "unvisited" set or jump indices.
+                    if (nextZ < minVisited[parity]) {
+                        // continue searching lower
+                    } else if (nextZ > maxVisited[parity]) {
+                        // continue searching higher
+                        nextZ = Math.max(nextZ, maxVisited[parity]);
+                    } else {
+                        // This middle section is already fully visited
+                        nextZ = maxVisited[parity]; 
+                    }
+                }
+            }
+            minVisited[parity] = Math.min(minVisited[parity], low);
+            maxVisited[parity] = Math.max(maxVisited[parity], high);
+        }
+
+        return -1;
+    }
+}
