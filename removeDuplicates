@@ -1,0 +1,16 @@
+import java.util.*;
+
+class Solution {
+    ArrayList<Integer> removeDuplicates(int[] arr) {
+        // 1. Use LinkedHashSet to store unique elements and maintain order
+        LinkedHashSet<Integer> set = new LinkedHashSet<>();
+        
+        // 2. Iterate through the array and add elements to the set
+        for (int x : arr) {
+            set.add(x);
+        }
+        
+        // 3. Convert the set back into an ArrayList
+        return new ArrayList<>(set);
+    }
+}
