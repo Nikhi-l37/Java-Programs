@@ -1,0 +1,20 @@
+class Solution {
+    static String revStr(String s) {
+        // code here
+
+       Stack<Character> stack = new Stack<>();
+       
+       for(char c : s.toCharArray()){
+           stack.push(c);
+       }
+       
+       String res = "";
+       
+       while(!stack.isEmpty()){
+          res = res +  stack.pop();
+       }
+       
+       return res;
+  
+    }
+}
