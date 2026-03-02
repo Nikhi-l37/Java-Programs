@@ -1,0 +1,19 @@
+// User function Template for Java
+import java.io.*;
+import java.util.*;
+
+class GFG {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+       
+              Stack<Integer> stack = new Stack<>();
+              
+              stack.push(a);
+              stack.push(b);
+              System.out.print(stack.pop()+" ");
+              System.out.print(stack.pop());
+
+    }
+}
