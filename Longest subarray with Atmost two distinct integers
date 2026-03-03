@@ -1,0 +1,30 @@
+// import java.util.HashMap;
+
+class Solution {
+    public int totalElements(int[] arr) {
+        if (arr == null || arr.length == 0) return 0;
+        
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int left = 0;
+        int maxLength = 0;
+        
+        for (int right = 0; right < arr.length; right++) {
+            // Add the current element to the frequency map
+            map.put(arr[right], map.getOrDefault(arr[right], 0) + 1);
+            
+            // If we have more than 2 distinct elements, shrink the window from the left
+            while (map.size() > 2) {
+                map.put(arr[left], map.get(arr[left]) - 1);
+                if (map.get(arr[left]) == 0) {
+                    map.remove(arr[left]);
+                }
+                left++;
+            }
+            
+            // Calculate the current window size and update maxLength
+            maxLength = Math.max(maxLength, right - left + 1);
+        }
+        
+        return maxLength;
+    }
+}
