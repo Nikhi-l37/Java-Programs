@@ -1,0 +1,68 @@
+class Solution {
+    public int minTime(Node root, int target) {
+        Map<Node, Node> parentMap = new HashMap<>();
+        Node targetNode = mapParentsAndFindTarget(root, target, parentMap);
+        
+        // BFS to simulate fire spreading
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(targetNode);
+        
+        Set<Node> visited = new HashSet<>();
+        visited.add(targetNode);
+        
+        int time = 0;
+        
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            boolean spread = false;
+            
+            for (int i = 0; i < size; i++) {
+                Node current = queue.poll();
+                
+                // Check Left Child
+                if (current.left != null && !visited.contains(current.left)) {
+                    spread = true;
+                    visited.add(current.left);
+                    queue.add(current.left);
+                }
+                // Check Right Child
+                if (current.right != null && !visited.contains(current.right)) {
+                    spread = true;
+                    visited.add(current.right);
+                    queue.add(current.right);
+                }
+                // Check Parent
+                Node parent = parentMap.get(current);
+                if (parent != null && !visited.contains(parent)) {
+                    spread = true;
+                    visited.add(parent);
+                    queue.add(parent);
+                }
+            }
+            if (spread) time++;
+        }
+        
+        return time;
+    }
+
+    private Node mapParentsAndFindTarget(Node root, int target, Map<Node, Node> map) {
+        Queue<Node> q = new LinkedList<>();
+        q.add(root);
+        Node res = null;
+        
+        while (!q.isEmpty()) {
+            Node curr = q.poll();
+            if (curr.data == target) res = curr;
+            
+            if (curr.left != null) {
+                map.put(curr.left, curr);
+                q.add(curr.left);
+            }
+            if (curr.right != null) {
+                map.put(curr.right, curr);
+                q.add(curr.right);
+            }
+        }
+        return res;
+    }
+}
