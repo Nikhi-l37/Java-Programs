@@ -1,0 +1,25 @@
+class Solution {
+    public int maxProfit(int[] arr, int k) {
+        int n = arr.length;
+        if (n <= 1) return 0;
+
+        // 'free' is max profit if we don't hold stock
+        // 'hold' is max profit if we are holding a stock
+        long free = 0;
+        long hold = -arr[0]; 
+
+        for (int i = 1; i < n; i++) {
+            // Update free: either keep previous free or sell current hold
+            long nextFree = Math.max(free, hold + arr[i] - k);
+            
+            // Update hold: either keep previous hold or buy at current price
+            long nextHold = Math.max(hold, free - arr[i]);
+            
+            free = nextFree;
+            hold = nextHold;
+        }
+
+        return (int) free;
+    }
+}
+
