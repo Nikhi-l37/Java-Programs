@@ -1,0 +1,53 @@
+class Solution {
+    public String generateString(String str1, String str2) {
+        int n = str1.length(), m = str2.length(), L = n + m - 1;
+        char[] res = new char[L];
+        boolean[] fixed = new boolean[L];
+        Arrays.fill(res, '?');
+
+        for (int i = 0; i < n; i++) {
+            if (str1.charAt(i) == 'T') {
+                for (int j = 0; j < m; j++) {
+                    if (res[i+j] != '?' && res[i+j] != str2.charAt(j)) return "";
+                    res[i+j] = str2.charAt(j);
+                    fixed[i+j] = true;
+                }
+            }
+        }
+        for (int i = 0; i < L; i++) if (res[i] == '?') res[i] = 'a';
+
+        // FIX 1: Process LEFT to RIGHT (not right to left)
+        for (int i = 0; i < n; i++) {
+            if (str1.charAt(i) == 'F' && checkMatch(res, i, str2)) {
+                boolean changed = false;
+                for (int j = m - 1; j >= 0; j--) {
+                    if (!fixed[i+j]) {
+                        // FIX 2: Start from 'a', not 'b'
+                        for (char c = 'a'; c <= 'z'; c++) {
+                            if (c != str2.charAt(j)) {
+                                res[i+j] = c;
+                                changed = true;
+                                break;
+                            }
+                        }
+                        if (changed) break;
+                    }
+                }
+                if (!changed) return "";
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            boolean match = checkMatch(res, i, str2);
+            if (str1.charAt(i) == 'T' && !match) return "";
+            if (str1.charAt(i) == 'F' && match) return "";
+        }
+        return new String(res);
+    }
+
+    private boolean checkMatch(char[] res, int start, String str2) {
+        for (int j = 0; j < str2.length(); j++)
+            if (res[start+j] != str2.charAt(j)) return false;
+        return true;
+    }
+}
