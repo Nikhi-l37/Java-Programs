@@ -1,0 +1,27 @@
+class Solution {
+    public int totalWays(int[] arr, int target) {
+        int totalSum = 0;
+        for (int x : arr) totalSum += x;
+
+        // Check if target is reachable or if the subset sum isn't an integer
+        if (Math.abs(target) > totalSum || (totalSum + target) % 2 != 0) {
+            return 0;
+        }
+
+        int s1Sum = (totalSum + target) / 2;
+        return countSubsets(arr, s1Sum);
+    }
+
+    private int countSubsets(int[] arr, int sum) {
+        int[] dp = new int[sum + 1];
+        dp[0] = 1; // Base case: 1 way to make sum 0 (empty subset)
+
+        for (int num : arr) {
+            for (int i = sum; i >= num; i--) {
+                dp[i] += dp[i - num];
+            }
+        }
+
+        return dp[sum];
+    }
+}
