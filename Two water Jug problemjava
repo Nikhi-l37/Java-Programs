@@ -1,0 +1,50 @@
+class Solution {
+    public int minSteps(int m, int n, int d) {
+        // Basic feasibility checks
+        if (d > Math.max(m, n)) return -1;
+        if (d % gcd(m, n) != 0) return -1;
+
+        // Return the minimum steps between the two possible pouring directions
+        return Math.min(simulate(m, n, d), simulate(n, m, d));
+    }
+
+    private int gcd(int a, int b) {
+        while (b != 0) {
+            a %= b;
+            // Swap a and b
+            int temp = a;
+            a = b;
+            b = temp;
+        }
+        return a;
+    }
+
+    private int simulate(int fromCap, int toCap, int target) {
+        int from = fromCap; // Fill the first jug
+        int to = 0;
+        int steps = 1;
+
+        while (from != target && to != target) {
+            // Find how much we can pour
+            int pour = Math.min(from, toCap - to);
+
+            to += pour;
+            from -= pour;
+            steps++;
+
+            if (from == target || to == target) break;
+
+            // If first jug becomes empty, fill it
+            if (from == 0) {
+                from = fromCap;
+                steps++;
+            }
+            // If second jug becomes full, empty it
+            else if (to == toCap) {
+                to = 0;
+                steps++;
+            }
+        }
+        return steps;
+    }
+}
