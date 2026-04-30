@@ -1,0 +1,65 @@
+import java.util.Arrays;
+
+class Solution {
+    public int maxPathScore(int[][] grid, int k) {
+        int m = grid.length;
+        int n = grid[0].length;
+
+        // dp[i][j][cost] stores the max score at cell (i, j) with a specific 'cost'
+        // Using -1 to represent unreachable states
+        int[][][] dp = new int[m][n][k + 1];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                Arrays.fill(dp[i][j], -1);
+            }
+        }
+
+        // Initialize starting cell (0, 0)
+        // Per constraints, grid[0][0] is always 0, so cost is 0 and score is 0
+        int startVal = grid[0]; 
+        int startCost = (startVal == 0) ? 0 : 1;
+        if (startCost <= k) {
+            dp[0][0][startCost] = startVal;
+        } else {
+            return -1; 
+        }
+
+        // Fill the DP table
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                for (int c = 0; c <= k; c++) {
+                    // Skip if this state is unreachable
+                    if (dp[i][j][c] == -1) continue;
+
+                    int currentScore = dp[i][j][c];
+
+                    // Move Right
+                    if (j + 1 < n) {
+                        int val = grid[i][j + 1];
+                        int moveCost = (val == 0) ? 0 : 1;
+                        if (c + moveCost <= k) {
+                            dp[i][j + 1][c + moveCost] = Math.max(dp[i][j + 1][c + moveCost], currentScore + val);
+                        }
+                    }
+                    
+                    // Move Down
+                    if (i + 1 < m) {
+                        int val = grid[i + 1][j];
+                        int moveCost = (val == 0) ? 0 : 1;
+                        if (c + moveCost <= k) {
+                            dp[i + 1][j][c + moveCost] = Math.max(dp[i + 1][j][c + moveCost], currentScore + val);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Find the maximum score in the bottom-right cell across all valid costs
+        int maxScore = -1;
+        for (int c = 0; c <= k; c++) {
+            maxScore = Math.max(maxScore, dp[m - 1][n - 1][c]);
+        }
+
+        return maxScore;
+    }
+}
